@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Samridhi's Spark and Style Studio ✨</title>
+<style>
+:root{
+  --pink:#ff6fae;--pink2:#ffd7e8;--purple:#8d6be8;--text:#4b3557;
+  --card:#ffffffee;--shadow:0 10px 30px rgba(92,55,105,.15)
+}
+*{box-sizing:border-box}
+body{
+ margin:0;min-height:100vh;font-family:"Trebuchet MS",Arial,sans-serif;color:var(--text);
+ background:radial-gradient(circle at 10% 10%,#fff 0 8%,transparent 25%),
+ linear-gradient(135deg,#ffeaf5,#eee9ff 48%,#dff8ff);
+}
+button{font:inherit;border:0;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.app{max-width:1150px;margin:auto;padding:12px}
+.header{
+ text-align:center;background:var(--card);border-radius:28px;padding:16px;
+ box-shadow:var(--shadow);border:2px solid #fff
+}
+.logo{font-size:30px;font-weight:900;color:#7c4fb0}
+.subtitle{font-size:14px;margin-top:4px}
+.layout{display:grid;grid-template-columns:390px 1fr;gap:14px;margin-top:14px}
+.card{background:var(--card);border-radius:24px;padding:14px;box-shadow:var(--shadow);border:2px solid #fff}
+.controls{max-height:calc(100vh - 155px);overflow:auto}
+.section{margin-bottom:15px}
+.section-title{display:flex;align-items:center;gap:7px;font-size:17px;font-weight:900;margin-bottom:8px}
+.section-title span{font-size:21px}
+.options{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}
+.option{
+ min-height:48px;padding:7px 4px;border-radius:15px;background:#f8f2ff;color:var(--text);
+ border:2px solid transparent;font-size:12px;font-weight:700;box-shadow:0 2px 5px #0001
+}
+.option:hover{background:#fff0f7}
+.option.active{border-color:var(--pink);background:var(--pink2);box-shadow:0 0 0 2px #ffb2d2}
+.actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:4px}
+.action{padding:12px;border-radius:16px;font-weight:900;background:#eee7ff}
+.action.primary{background:linear-gradient(135deg,#ff77b3,#a17bea);color:white}
+.action.gold{background:#ffe08a}
+.action.green{background:#d8f5df}
+.score{
+ margin-top:10px;padding:10px;border-radius:15px;background:#fff5c9;text-align:center;
+ font-size:18px;font-weight:900
+}
+.stage{
+ min-height:650px;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;
+ position:relative;overflow:hidden;transition:.3s
+}
+.stage.bg1{background:linear-gradient(#bdefff,#fdfcff)}
+.stage.bg2{background:linear-gradient(#ffd3e7,#fff1c8)}
+.stage.bg3{background:linear-gradient(#d9c7ff,#c6f4df)}
+.stage.bg4{background:linear-gradient(#c8f5ff,#d9d0ff)}
+.stage.bg5{background:linear-gradient(#ffe0a8,#ffc6d7)}
+.stage-title{font-size:22px;font-weight:900;margin-top:5px;background:#ffffffbb;padding:8px 18px;border-radius:20px}
+.sparkles{position:absolute;font-size:24px;opacity:.8;animation:float 3s infinite ease-in-out}
+.s1{left:8%;top:14%}.s2{right:10%;top:23%;animation-delay:1s}.s3{left:12%;bottom:16%;animation-delay:2s}
+@keyframes float{50%{transform:translateY(-10px) rotate(8deg)}}
+#character{position:relative;width:270px;height:480px;margin-top:15px;transform-origin:center bottom}
+.head{position:absolute;top:25px;left:65px;width:140px;height:150px;border-radius:48% 48% 45% 45%;z-index:5}
+.hair{position:absolute;top:7px;left:58px;width:154px;height:95px;border-radius:55% 55% 25% 25%;z-index:3}
+.hair.long{height:220px;border-radius:55% 55% 20% 20%;z-index:2}
+.ear{position:absolute;top:78px;width:22px;height:38px;border-radius:50%;z-index:2}
+.ear.left{left:57px}.ear.right{right:57px}
+.eyes{position:absolute;top:62px;left:20px;width:100px;display:flex;justify-content:space-between;z-index:10}
+.eye{width:23px;height:30px;border-radius:50%;position:relative}
+.eye:after{content:"";position:absolute;width:7px;height:9px;background:white;border-radius:50%;left:4px;top:4px}
+.nose{position:absolute;top:88px;left:66px;font-size:13px;z-index:11}
+.mouth{position:absolute;top:108px;left:50px;font-size:28px;z-index:11;line-height:1}
+.neck{position:absolute;top:160px;left:115px;width:40px;height:45px;z-index:2}
+.body{position:absolute;top:190px;left:55px;width:160px;height:210px;border-radius:38px 38px 22px 22px;z-index:2}
+.arm{position:absolute;top:205px;width:35px;height:145px;border-radius:25px;z-index:1}
+.arm.left{left:32px;transform:rotate(8deg)}.arm.right{right:32px;transform:rotate(-8deg)}
+.leg{position:absolute;top:385px;width:45px;height:65px;border-radius:15px;z-index:1}
+.leg.left{left:80px}.leg.right{right:80px}
+.shoe{position:absolute;top:438px;width:68px;height:28px;border-radius:25px;z-index:3}
+.shoe.left{left:65px}.shoe.right{right:65px}
+.acc{position:absolute;z-index:20;font-size:48px;top:148px;left:112px;touch-action:none;user-select:none;-webkit-user-select:none;cursor:grab;line-height:1}
+.note{font-size:12px;opacity:.75;text-align:center;margin:8px 0 0}
+@media(max-width:820px){
+ .layout{grid-template-columns:1fr}
+ .controls{max-height:none;order:2}
+ .stage{order:1;min-height:570px}
+}
+@media(max-width:480px){
+ .app{padding:8px}.header{padding:12px}.logo{font-size:25px}
+ .options{grid-template-columns:repeat(2,1fr)}
+ .stage{min-height:560px}.controls{padding:11px}
+}
+
+/* --- Extra organisation styles --- */
+.control-head{padding:4px 2px 10px}
+.hint{font-size:12px;opacity:.7}
+.tabs{display:flex;gap:6px;overflow-x:auto;padding:4px 1px 10px;position:sticky;top:0;background:#ffffffee;z-index:20}
+.tab{flex:0 0 auto;padding:10px 12px;border-radius:15px;background:#f1ebff;color:#5b4270;font-size:12px;font-weight:900}
+.tab.active{background:linear-gradient(135deg,#ff78b4,#9a7bed);color:white;box-shadow:0 4px 10px #0002}
+.tab-panel{display:none;animation:fade .18s ease}
+.tab-panel.active{display:block}
+.quick-title{font-weight:900;font-size:16px;margin:8px 0}
+.stage .stage-sub{font-size:12px;opacity:.7;margin-top:2px}
+@keyframes fade{from{opacity:.3;transform:translateY(3px)}to{opacity:1;transform:none}}
+@media(max-width:820px){
+ .tabs{position:sticky;top:-1px}
+ .controls{order:2}
+ .stage{order:1}
+}
+
+
+/* Touch-screen friendly controls */
+button,.option,.tab{
+  touch-action:manipulation;
+  -webkit-user-select:none;
+  user-select:none;
+  min-height:50px;
+}
+.options .option{min-height:54px}
+.option:active,.tab:active,.action:active{
+  transform:scale(.94);
+}
+
+
+/* Real drawn facial expressions - no emoji on the character */
+.mouth{position:absolute;top:105px;left:49px;width:42px;height:28px;z-index:11}
+.mouth.happy{border-bottom:5px solid #5b3030;border-radius:0 0 50% 50%}
+.mouth.bigsmile{border:4px solid #5b3030;border-top:0;border-radius:0 0 25px 25px;height:22px;top:104px}
+.mouth.love:before{content:"♥";color:#e85d75;font-size:25px;position:absolute;left:8px;top:-3px}
+.mouth.cool{border-bottom:4px solid #5b3030;border-radius:0 0 50% 50%;width:28px;left:56px}
+.mouth.wink{border-bottom:5px solid #5b3030;border-radius:0 0 50% 50%;width:30px;left:55px}
+.mouth.playful{border-bottom:4px solid #5b3030;border-radius:0 0 50% 50%;width:30px;left:55px}
+.mouth.surprised{width:24px;height:30px;border:4px solid #5b3030;border-radius:50%;left:58px;top:102px}
+.mouth.sleepy{border-bottom:4px solid #5b3030;border-radius:0 0 50% 50%;width:25px;left:57px}
+.mouth.thinking{border-bottom:4px solid #5b3030;border-radius:50%;width:25px;left:57px;transform:rotate(-12deg)}
+.mouth.funny{border-bottom:5px solid #5b3030;border-radius:0 0 50% 50%;width:32px;left:53px;transform:rotate(8deg)}
+
+
+.creator{
+  margin-top:8px;
+  display:inline-block;
+  padding:7px 14px;
+  border-radius:16px;
+  background:linear-gradient(135deg,#fff0f7,#eee7ff);
+  color:#765080;
+  font-size:13px;
+  font-weight:700;
+  border:1px solid #ffffff;
+}
+
+</style>
+</head>
+<body>
+<div class="app">
+<header class="header">
+ <div class="logo">✨ Samridhi's Spark and Style Studio ✨</div>
+ <div class="subtitle">Create a character • Mix & match • Have fun!</div><div class="creator">💖 Made by <strong>Samridhi Rajput</strong> • Class 3 🌟</div>
+</header>
+
+<div class="layout">
+<section class="card controls">
+ <div class="control-head">
+   <div>
+     <div class="section-title" style="margin-bottom:2px"><span>🎨</span>Fashion Studio</div>
+     <div class="hint">Choose a category, then tap your favourite option.</div>
+   </div>
+ </div>
+
+ <div class="tabs" id="tabs">
+   <button class="tab active" data-tab="character">👤 Character</button>
+   <button class="tab" data-tab="face">😊 Face</button>
+   <button class="tab" data-tab="hair">💇 Hair</button>
+   <button class="tab" data-tab="outfit">👗 Outfit</button>
+   <button class="tab" data-tab="style">💎 Style</button>
+ </div>
+
+ <div class="tab-panel active" id="tab-character">
+   <div class="section"><div class="section-title"><span>👤</span>Who are you dressing?</div><div class="options" id="gender"></div></div>
+   <div class="section"><div class="section-title"><span>🎨</span>Skin Colour</div><div class="options" id="skin"></div></div>
+ </div>
+
+ <div class="tab-panel" id="tab-face">
+   <div class="section"><div class="section-title"><span>👀</span>Eye Colour</div><div class="options" id="eyes"></div></div>
+   <div class="section"><div class="section-title"><span>😊</span>Expression</div><div class="options" id="faces"></div></div>
+ </div>
+
+ <div class="tab-panel" id="tab-hair">
+   <div class="section"><div class="section-title"><span>💇</span>Hairstyle & Colour</div><div class="options" id="hair"></div></div>
+ </div>
+
+ <div class="tab-panel" id="tab-outfit">
+   <div class="section"><div class="section-title"><span>👗</span>Outfit</div><div class="options" id="clothes"></div></div>
+   <div class="section"><div class="section-title"><span>👟</span>Shoes</div><div class="options" id="shoes"></div></div>
+ </div>
+
+ <div class="tab-panel" id="tab-style">
+   <div class="section"><div class="section-title"><span>💎</span>Accessories</div><div class="options" id="accessories"></div></div>
+   <div class="section"><div class="section-title"><span>🌈</span>Background</div><div class="options" id="background"></div></div>
+ </div>
+
+ <div class="quick-title">⚡ Quick Actions</div>
+ <div class="actions">
+   <button class="action primary" onclick="randomLook()">🎲 Random Look</button>
+   <button class="action" onclick="resetGame()">🔄 Reset</button>
+   <button class="action gold" onclick="saveFavourite()">❤️ Save Look</button>
+   <button class="action green" onclick="loadFavourite()">⭐ My Favourite</button>
+   <button class="action" onclick="putAccessoryNeck()">🎀 Put on Neck</button>
+ </div>
+ <div class="score" id="score">⭐ Fashion Score: 0/100</div>
+ <div class="note">📴 Works offline • 👆 Made for touch screens</div>
+</section>
+</section>
+
+<section class="card stage bg1" id="stage">
+ <div class="sparkles s1">✨</div><div class="sparkles s2">💖</div><div class="sparkles s3">⭐</div>
+ <div class="stage-title" id="outfitName">👑 Pink Princess</div><div class="stage-sub">✨ Your fashion creation ✨</div><div class="stage-sub">👆 Tap the character to change her face!</div><div class="stage-sub">🎀 Drag the bow/accessory anywhere you want!</div>
+ <div id="character">
+  <div class="hair long" id="hairShape"></div>
+  <div class="ear left" id="earL"></div><div class="ear right" id="earR"></div>
+  <div class="head" id="head">
+   <div class="eyes"><div class="eye" id="eyeL"></div><div class="eye" id="eyeR"></div></div>
+   <div class="nose"></div><div class="mouth happy" id="mouth"></div>
+  </div>
+  <div class="neck" id="neck"></div>
+  <div class="arm left" id="armL"></div><div class="arm right" id="armR"></div>
+  <div class="body" id="body"></div>
+  <div class="leg left" id="legL"></div><div class="leg right" id="legR"></div>
+  <div class="shoe left" id="shoeL"></div><div class="shoe right" id="shoeR"></div>
+  <div class="acc" id="acc"></div>
+ </div>
+</section>
+</div>
+</div>
+
+<script>
+const DATA={
+gender:[["girl","👧 Girl"],["boy","👦 Boy"]],
+skin:[["#f1b27d","🌸 Light"],["#f3c7a3","🌷 Fair"],["#d99562","🍑 Peach"],["#c68642","🌰 Warm"],["#b96f45","🤎 Tan"],["#8d5524","🤎 Brown"],["#a55b38","🧡 Golden"],["#6b3e26","🍫 Deep"]],
+eyes:[["#3b2418","🤎 Brown"],["#3b82f6","💙 Blue"],["#22a447","💚 Green"],["#55c8e8","🩵 Light Blue"],["#777777","🩶 Grey"],["#8b5cf6","💜 Purple"],["#111111","🖤 Black"],["#d69e2e","💛 Golden"]],
+faces:[
+ ["happy","😊 Happy"],["bigsmile","😁 Big Smile"],["love","💗 Love"],["cool","😎 Cool"],
+ ["wink","😉 Wink"],["playful","😋 Playful"],["surprised","😮 Surprised"],
+ ["sleepy","😴 Sleepy"],["thinking","🤔 Thinking"],["funny","😜 Funny"]
+],
+hair:[["#542d28","long","🤎 Long Brown"],["#111111","long","🖤 Long Black"],["#d4a017","long","💛 Long Blonde"],["#8b4513","short","🤎 Short Brown"],["#111111","short","🖤 Short Black"],["#e66b35","long","🧡 Long Ginger"],["#7c3aed","long","💜 Purple"],["#2563eb","short","💙 Blue"]],
+clothes:[
+["#ff75b6","#ff75b6","👑 Pink Princess"],["#5b8def","#f6f6ff","👖 Cool Denim"],["#70d6a3","#fff4c2","🌿 Spring Style"],["#9b72cf","#d9b3ff","🧚 Fairy Dream"],["#222222","#ef4444","🦸 Super Hero"],["#ff9f43","#fff","🌈 Rainbow Fun"],["#d97706","#f3d5b5","👘 Traditional"],["#38bdf8","#fef08a","🏖️ Sunny Day"],["#f43f5e","#fb7185","💃 Party Dress"]],
+shoes:[["#9a63d5","💜 Purple"],["#222222","🖤 Black"],["#ffffff","🤍 White"],["#e83e8c","💗 Pink"],["#38bdf8","💙 Blue"],["#d97706","🤎 Boots"],["#facc15","💛 Gold"]],
+accessories:[["","❌ None"],["👑","👑 Crown"],["🎀","🎀 Bow"],["🕶️","🕶️ Sunglasses"],["💎","💎 Diamond"],["🌸","🌸 Flower"],["👜","👜 Bag"],["🦋","🦋 Butterfly"],["⭐","⭐ Star"]],
+background:[["bg1","☁️ Sky"],["bg2","🌸 Candy"],["bg3","🧚 Dream"],["bg4","💎 Crystal"],["bg5","🌅 Sunset"]]
+};
+
+let state={
+ gender:"girl",skin:"#f1b27d",eye:"#3b2418",face:"happy",
+ hair:"#542d28",hairType:"long",clothes:DATA.clothes[0],
+ shoe:"#9a63d5",acc:"",accX:112,accY:148,bg:"bg1"
+};
+
+function build(id,items,handler){
+ const box=document.getElementById(id);box.innerHTML="";
+ items.forEach(item=>{
+  const b=document.createElement("button");
+  b.className="option";b.textContent=item[item.length-1];
+  b.onclick=()=>{handler(item);setActive(box,b);render()};
+  box.appendChild(b);
+ });
+}
+function setActive(box,button){
+ [...box.children].forEach(x=>x.classList.remove("active"));
+ button.classList.add("active");
+}
+
+document.querySelectorAll(".tab").forEach(tab=>{
+  tab.addEventListener("click",()=>{
+    document.querySelectorAll(".tab").forEach(t=>t.classList.remove("active"));
+    document.querySelectorAll(".tab-panel").forEach(p=>p.classList.remove("active"));
+    tab.classList.add("active");
+    document.getElementById("tab-"+tab.dataset.tab).classList.add("active");
+  });
+});
+
+
+/* Simple touch interaction on the character */
+const characterEl=document.getElementById("character");
+let touchStartX=0,touchStartY=0;
+characterEl.addEventListener("touchstart",e=>{
+  const t=e.changedTouches[0];
+  touchStartX=t.clientX; touchStartY=t.clientY;
+},{passive:true});
+characterEl.addEventListener("touchend",e=>{
+  const t=e.changedTouches[0];
+  const dx=t.clientX-touchStartX, dy=t.clientY-touchStartY;
+  if(Math.abs(dx)<25 && Math.abs(dy)<25){
+    const i=DATA.faces.findIndex(x=>x[0]===state.face);
+    state.face=DATA.faces[(i+1)%DATA.faces.length][0];
+    render();
+  }
+},{passive:true});
+
+
+/* Drag accessories with finger or mouse */
+const accEl = document.getElementById("acc");
+let draggingAccessory=false, dragOffsetX=0, dragOffsetY=0;
+
+function pointerPosition(e){
+  const rect=document.getElementById("character").getBoundingClientRect();
+  return {x:e.clientX-rect.left, y:e.clientY-rect.top};
+}
+accEl.addEventListener("pointerdown", e=>{
+  if(!state.acc) return;
+  e.preventDefault();
+  draggingAccessory=true;
+  accEl.setPointerCapture(e.pointerId);
+  const pos=pointerPosition(e);
+  dragOffsetX=pos.x-state.accX;
+  dragOffsetY=pos.y-state.accY;
+  accEl.style.cursor="grabbing";
+});
+accEl.addEventListener("pointermove", e=>{
+  if(!draggingAccessory) return;
+  e.preventDefault();
+  const pos=pointerPosition(e);
+  state.accX=Math.max(0,Math.min(220,pos.x-dragOffsetX));
+  state.accY=Math.max(0,Math.min(410,pos.y-dragOffsetY));
+  accEl.style.left=state.accX+"px";
+  accEl.style.top=state.accY+"px";
+});
+accEl.addEventListener("pointerup", e=>{
+  draggingAccessory=false;
+  accEl.style.cursor="grab";
+});
+accEl.addEventListener("pointercancel", e=>{
+  draggingAccessory=false;
+  accEl.style.cursor="grab";
+});
+
+function buildAll(){
+ build("gender",DATA.gender,x=>state.gender=x[0]);
+ build("skin",DATA.skin,x=>state.skin=x[0]);
+ build("eyes",DATA.eyes,x=>state.eye=x[0]);
+ build("faces",DATA.faces,x=>state.face=x[0]);
+ build("hair",DATA.hair,x=>{state.hair=x[0];state.hairType=x[1]});
+ build("clothes",DATA.clothes,x=>state.clothes=x);
+ build("shoes",DATA.shoes,x=>state.shoe=x[0]);
+ build("accessories",DATA.accessories,x=>state.acc=x[0]);
+ build("background",DATA.background,x=>state.bg=x[0]);
+}
+function render(){
+ ["head","earL","earR","neck","armL","armR"].forEach(id=>document.getElementById(id).style.background=state.skin);
+ const hs=document.getElementById("hairShape");hs.style.background=state.hair;hs.className="hair "+state.hairType;
+ document.getElementById("eyeL").style.background=state.eye;
+ document.getElementById("eyeR").style.background=state.eye;
+ const mouth=document.getElementById("mouth"); mouth.className="mouth "+state.face; mouth.textContent="";
+ document.getElementById("body").style.background=state.clothes[0];
+ document.getElementById("legL").style.background=state.clothes[1];
+ document.getElementById("legR").style.background=state.clothes[1];
+ document.getElementById("shoeL").style.background=state.shoe;
+ document.getElementById("shoeR").style.background=state.shoe;
+ const accEl=document.getElementById("acc"); accEl.textContent=state.acc; accEl.style.left=state.accX+"px"; accEl.style.top=state.accY+"px";
+ document.getElementById("stage").className="card stage "+state.bg;
+ document.getElementById("outfitName").textContent=state.clothes[2];
+ document.getElementById("character").style.transform=state.gender==="boy"?"scale(1.04)":"scale(1)";
+ updateActive();
+ score();
+}
+function updateActive(){
+ const groups=[
+  ["gender",DATA.gender,x=>state.gender===x[0]],
+  ["skin",DATA.skin,x=>state.skin===x[0]],
+  ["eyes",DATA.eyes,x=>state.eye===x[0]],
+  ["faces",DATA.faces,x=>state.face===x[0]],
+  ["hair",DATA.hair,x=>state.hair===x[0]&&state.hairType===x[1]],
+  ["clothes",DATA.clothes,x=>state.clothes===x],
+  ["shoes",DATA.shoes,x=>state.shoe===x[0]],
+  ["accessories",DATA.accessories,x=>state.acc===x[0]],
+  ["background",DATA.background,x=>state.bg===x[0]]
+ ];
+ groups.forEach(([id,items,test])=>{
+  const bs=[...document.getElementById(id).children];
+  items.forEach((item,i)=>bs[i].classList.toggle("active",test(item)));
+ });
+}
+function score(){
+ let s=55;
+ if(state.acc)s+=12;
+ if(state.eye!=="#3b2418")s+=7;
+ if(state.face!=="😀")s+=6;
+ if(state.hairType==="long")s+=5;
+ if(state.bg!=="bg1")s+=5;
+ if(state.clothes[0]==="#ff75b6")s+=3;
+ document.getElementById("score").textContent="⭐ Fashion Score: "+Math.min(100,s)+"/100";
+}
+function resetGame(){
+ state={gender:"girl",skin:"#f1b27d",eye:"#3b2418",face:"happy",hair:"#542d28",hairType:"long",clothes:DATA.clothes[0],shoe:"#9a63d5",acc:"",accX:112,accY:148,bg:"bg1"};
+ render();
+}
+function randomLook(){
+ state.gender=DATA.gender[Math.floor(Math.random()*DATA.gender.length)][0];
+ state.skin=DATA.skin[Math.floor(Math.random()*DATA.skin.length)][0];
+ state.eye=DATA.eyes[Math.floor(Math.random()*DATA.eyes.length)][0];
+ state.face=DATA.faces[Math.floor(Math.random()*DATA.faces.length)][0];
+ const h=DATA.hair[Math.floor(Math.random()*DATA.hair.length)];state.hair=h[0];state.hairType=h[1];
+ state.clothes=DATA.clothes[Math.floor(Math.random()*DATA.clothes.length)];
+ state.shoe=DATA.shoes[Math.floor(Math.random()*DATA.shoes.length)][0];
+ state.acc=DATA.accessories[Math.floor(Math.random()*DATA.accessories.length)][0]; state.accX=112; state.accY=148;
+ state.bg=DATA.background[Math.floor(Math.random()*DATA.background.length)][0];
+ render();
+}
+
+function putAccessoryNeck(){
+ if(!state.acc){alert("💎 First choose an accessory!");return}
+ state.accX=112; state.accY=148; render();
+}
+
+function saveFavourite(){
+ localStorage.setItem("myFashionFavourite",JSON.stringify(state));
+ alert("❤️ Favourite saved on this device!");
+}
+function loadFavourite(){
+ const saved=localStorage.getItem("myFashionFavourite");
+ if(!saved){alert("⭐ You haven't saved a favourite yet!");return}
+ state=JSON.parse(saved);render();alert("⭐ Favourite loaded!");
+}
+buildAll();render();
+</script>
+</body>
+</html>
